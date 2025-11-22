@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Proyecto Cloud - Daniel Villalba</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <p>Proyecto de Daniel Villalba, Katherine Bolivar y Ximena Velasco — IaaS</p>
+  <h1>Proyecto Integrado: IaaS – PaaS – SaaS</h1>
+  <p>Este servidor EC2 representa el modelo IaaS.</p>
+
+  <!-- Consumo de la API principal -->
+  <p>Consumiendo API desde Replit (PaaS)...</p>
+  <div id="api"></div>
+
+  <!-- Tabla de productos -->
+  <h2>Lista de productos (desde PaaS)</h2>
+  <table border="1" id="productos">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Precio</th>
+    </tr>
+  </table>
+
+  <script>
+    // Ruta principal
+    fetch('https://f89d575e-43ef-4d84-a7ca-fb046890771b-00-1zfcbfcvzcw0d.kirk.replit.dev/')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('api').innerHTML = '<strong>Respuesta de la API:</strong> ' + data;
+      })
+      .catch(err => {
+        document.getElementById('api').innerHTML = '<strong>Error al conectar con la API.</strong>';
+      });
+
+    // Ruta de productos
+    fetch('https://f89d575e-43ef-4d84-a7ca-fb046890771b-00-1zfcbfcvzcw0d.kirk.replit.dev/productos')
+      .then(res => res.json())
+      .then(data => {
+        const tabla = document.getElementById('productos');
+        data.forEach(p => {
+          const fila = `<tr><td>${p.id}</td><td>${p.nombre}</td><td>${p.precio}</td></tr>`;
+          tabla.innerHTML += fila;
+        });
+      })
+      .catch(err => {
+        document.getElementById('productos').innerHTML += '<tr><td colspan="3">Error al conectar con la API.</td></tr>';
+      });
+  </script>
+</body>
+</html>
+
